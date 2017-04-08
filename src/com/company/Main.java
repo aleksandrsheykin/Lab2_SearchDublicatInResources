@@ -5,9 +5,6 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Main {
-
-    //public static volatile Set<String> wordSet = new HashSet<>();
-    //public static volatile AtomicBoolean flStop = new AtomicBoolean(false);
     public static volatile WordSet wordSetObject = new WordSet();
 
     public static void main(String[] args) {
