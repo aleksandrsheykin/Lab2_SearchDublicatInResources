@@ -5,8 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static com.company.Main.wordSet;
+import com.company.WordSet;
 
 /**
  * Created by admin on 08.04.2017.
@@ -24,6 +23,8 @@ public class Searcher extends Thread {
         File file = new File(res);
         Matcher m;
 
+        //if (WordSet.flStop.get()) { return; }
+
         try {
             Scanner scanner = new Scanner(file);
             String word;
@@ -37,14 +38,16 @@ public class Searcher extends Thread {
                 }
                 word = word.replaceAll("[^а-яА-Я]+", "");
 
-                //synchronized (wordSet) {
-                    if (!wordSet.add(word)) {
-                        System.out.println("word ''"+word+"'' repeated in file "+res);
+                synchronized (Main.wordSetObject.wordSet) {
+                    if (Main.wordSetObject.flStop.get()) { return; }
+                    if (!Main.wordSetObject.wordSet.add(word)) {
+                        System.out.println("word '"+word+"' repeated in file "+res);
+                        Main.wordSetObject.flStop.set(true);
                         return;
                     }
-                //}
+                }
 
-                System.out.println(word);
+                //System.out.println(word);
             }
 
         } catch (FileNotFoundException e) {
