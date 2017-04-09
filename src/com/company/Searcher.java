@@ -10,8 +10,10 @@ import java.util.regex.Pattern;
  */
 public class Searcher extends Thread {
     String res;
+    Integer threadInd;
 
-    public Searcher(String res) {
+    public Searcher(String res, Integer threadInd) {
+        this.threadInd = threadInd;
         this.res = res;
         Thread t = new Thread(this);
         t.start();
@@ -37,6 +39,7 @@ public class Searcher extends Thread {
                     if (!Main.wordSetObject.wordSet.add(word)) {
                         System.out.println("word '"+word+"' repeated in file "+res);
                         Main.wordSetObject.flStop.set(true);
+                        Main.finisher.finish(this.threadInd);
                         return;
                     }
                 }
